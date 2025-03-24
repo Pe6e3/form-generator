@@ -26,12 +26,14 @@ export const useFormStore = defineStore('formStore', {
                 buttonOk: this.buttonOk ? {
                     text: this.buttonOk.text,
                     color: this.buttonOk.color,
+                    textColor: this.buttonOk.textColor,
                     isDisabled: this.buttonOk.isDisabled,
                     isShow: this.buttonOk.isShow,
                 } : null,
                 buttonCancel: this.buttonCancel ? {
                     text: this.buttonCancel.text,
                     color: this.buttonCancel.color,
+                    textColor: this.buttonCancel.textColor,
                     isDisabled: this.buttonCancel.isDisabled,
                     isShow: this.buttonCancel.isShow,
                 } : null,
@@ -56,7 +58,6 @@ export const useFormStore = defineStore('formStore', {
                 return
             }
             const input = new FormInput(label, value, placeholder, isDisabled, isShow)
-            console.log('%cinput:', 'background: yellow; color: black; border-radius: 4px; padding: 2px;', input);
             this.elements.push(input)
         },
 
@@ -104,23 +105,39 @@ export const useFormStore = defineStore('formStore', {
         },
 
 
-
-        setButtonOk({ text, color, action, isDisabled, isShow }) {
+        /**
+         * @param {String} text - текст кнопки (по умолчанию 'Ok')
+         * @param {String} color - цвет кнопки (по умолчанию 'blue')
+         * @param {Function} action - действие при нажатии (по умолчанию formSubmit)
+         * @param {Boolean} isDisabled - заблокирована ли кнопка (по умолчанию false)
+         * @param {Boolean} isShow - отображается ли кнопка (по умолчанию true)
+         */
+        setButtonOk({ text, color, textColor, action, isDisabled, isShow }) {
             this.buttonOk = new FormButton(
                 text || 'Ok',
                 color = color || 'blue',
+                textColor = textColor || 'white',
                 action = () => action || this.formSubmit(),
                 isDisabled = isDisabled || false,
                 isShow = isShow || true)
         },
 
-        setButtonCancel({ text, color, action, isDisabled, isShow }) {
+        /**
+         * @param {String} text - текст кнопки (по умолчанию 'Cancel') 
+         * @param {String} color - цвет кнопки (по умолчанию 'red')
+         * @param {Function} action - действие при нажатии (по умолчанию formCancel)
+         * @param {Boolean} isDisabled - заблокирована ли кнопка (по умолчанию false)
+         * @param {Boolean} isShow - отображается ли кнопка (по умолчанию true)
+         */
+        setButtonCancel({ text, color, textColor, action, isDisabled, isShow }) {
             this.buttonCancel = new FormButton(
                 text || 'Cancel',
                 color = color || 'red',
+                textColor = textColor || 'white',
                 action = () => action || this.formCancel(),
                 isDisabled = isDisabled || false,
                 isShow = isShow || true)
+            console.log(this.buttonCancel)
         },
 
 
@@ -211,11 +228,19 @@ class FormCheckbox extends FormElement {
     }
 }
 
-
+/**
+* @param {String} text - текст кнопки
+* @param {String} color - цвет фона кнопки
+* @param {String} textColor - цвет текста кнопки
+* @param {Function} action - функция, которая будет вызвана при нажатии на кнопку
+* @param {Boolean} isDisabled - заблокирована ли кнопка
+* @param {Boolean} isShow - отображается ли кнопка
+*/
 class FormButton {
-    constructor(text, color, action, isDisabled, isShow) {
+    constructor(text, color, textColor, action, isDisabled, isShow) {
         this.text = text
         this.color = color
+        this.textColor = textColor
         this.action = action
         this.isDisabled = isDisabled
         this.isShow = isShow

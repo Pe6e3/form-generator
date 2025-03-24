@@ -31,8 +31,22 @@
                     </div>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button type="submit" class="btn btn-primary me-md-2">Отправить</button>
-                        <button type="reset" class="btn btn-outline-secondary">Сбросить</button>
+                        <button v-if="form.buttonOk && form.buttonOk.isShow" class="btn btn-primary me-md-2" :style="{
+                            background: form.buttonOk.color,
+                            color: form.buttonOk.textColor
+                        }
+                            " @click="form.buttonOk.action">
+                            {{ form.buttonOk.text }}
+                        </button>
+
+                        <button v-if="form.buttonCancel && form.buttonCancel.isShow" type="reset" class="btn" :style="{
+                            background: form.buttonCancel.color,
+                            color: form.buttonCancel.textColor
+                        }
+                            " @click="form.buttonCancel.action">
+                            {{ form.buttonCancel.text }}
+                        </button>
+
                     </div>
                 </form>
             </div>
@@ -58,35 +72,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form-generator {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 0 1rem;
 
-    .card {
-        border-radius: 8px;
-        border: none;
-    }
-
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    .form-label {
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-    }
-
-    .form-control,
-    .form-select {
-        &:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-        }
-    }
-
-    .form-check {
-        margin-bottom: 0.5rem;
-    }
-}
 </style>

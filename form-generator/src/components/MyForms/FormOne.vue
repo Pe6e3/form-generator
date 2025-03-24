@@ -1,9 +1,5 @@
 <template>
-    <div>
-
-       
-        <form-generator v-if="form" :form="form" />
-    </div>
+    <form-generator v-if="form" :form="form" class="w-50 mx-auto" />
 </template>
 
 <script>
@@ -26,7 +22,7 @@ export default {
         this.initForm();
     },
     methods: {
-        ...mapActions(useFormStore, ['addInput', 'addSelect', 'addCheckbox', 'addRadio', 'addTextarea', 'addButton', 'addSubmit', 'generateForm']),
+        ...mapActions(useFormStore, ['addInput', 'addSelect', 'addCheckbox', 'addRadio', 'addTextarea', 'addButton', 'addSubmit', 'generateForm', 'setButtonOk', 'setButtonCancel']),
 
         initForm() {
             this.addInput({
@@ -64,6 +60,25 @@ export default {
                 values: ['JavaScript', 'Python', 'C++', 'Java'],
                 selectedValues: ['JavaScript', 'Python']
             });
+
+            this.setButtonOk({
+                text: 'Отправить',
+                color: 'green',
+                textColor: 'white',
+                action: () => {
+                    console.log('Отправить');
+                }
+            });
+
+            this.setButtonCancel({
+                text: 'Отменить',
+                color: 'red',
+                textColor: 'white',
+                action: () => {
+                    console.log('Отменить');
+                }
+            });
+
 
             this.form = this.generateForm('Форма №1');
         },
