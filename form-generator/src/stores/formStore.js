@@ -22,6 +22,7 @@ export const useFormStore = defineStore('formStore', {
                     values: element.values || null,
                     isDisabled: element.isDisabled,
                     isShow: element.isShow,
+                    rows: element.rows || 3
                 })),
                 buttonOk: this.buttonOk ? {
                     text: this.buttonOk.text,

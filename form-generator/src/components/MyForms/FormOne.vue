@@ -3,7 +3,7 @@
         <form-generator v-if="form" :form="form" class="w-50 mx-auto" @button-click="handleButtonClick"
             @input-change="handleInputChange">
 
-         
+
         </form-generator>
     </div>
 </template>
@@ -22,6 +22,25 @@ export default {
     data() {
         return {
             form: null,
+
+            formData: {
+                countries_list: ['Россия', 'Казахстан', 'Беларусь'],
+                hobby_list: ['Спорт', 'Музыка', 'Чтение', 'Путешествия', 'Программирование', 'Танцы'],
+                languages_list: ['Python', 'C++', 'Java', 'C#', 'JavaScript', 'TypeScrypt'],
+                age_list: [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50],
+                gender_list: ['Мужской', 'Женский']
+            },
+
+            serverData: {
+                name: 'Антон Ребезов',
+                country: 'Казахстан',
+                hobby: ['Спорт', , 'Путешествия', 'Чтение', 'Программирование', 'Лишнее хобби'],
+                email: 'xpe6e3@gmail.com',
+                comment: 'Данный конструктор форм позволяет создавать формы и поддерживает элементы типа input, select, checkbox, textarea. Эти элементы можно добавлять в форму несколько раз и в разном порядке. Данные из них попадают в объект formData, который можно отправить на сервер или обработать на стороне клиента. Все поля формы можно кастомизировать с помощью слотов. Атрибуты также можно передавать через них. Важные параметры передаются с помощью методов, логика которых прописана в сторе. Стор нужен только для отрисовки формы, сразу после чего он очищается.',
+                gender: 'Мужской',
+                languages: ['JavaScript', 'Python', 'C#'],
+                age: 33
+            }
         };
     },
     mounted() {
@@ -45,45 +64,56 @@ export default {
         initForm() {
             this.addInput({
                 label: 'Имя',
-                value: '',
+                value: this.serverData.name,
                 placeholder: 'Введите имя'
             });
 
             this.addSelect({
-                label: 'Страна',
-                values: ['Россия', 'Казахстан', 'Беларусь'],
-                selectedValue: 'Казахстан'
+                label: 'Пол',
+                values: this.formData.gender_list,
+                selectedValue: this.serverData.gender
             });
+
+
+            this.addSelect({
+                label: 'Возраст',
+                values: this.formData.age_list,
+                selectedValue: this.serverData.age
+            });
+
+            this.addSelect({
+                label: 'Страна',
+                values: this.formData.countries_list,
+                selectedValue: this.serverData.country
+            });
+
 
             this.addCheckbox({
                 label: 'Хобби',
-                values: ['Спорт', 'Музыка', 'Чтение', 'Путешествия'],
-                selectedValues: ['Музыка', 'Чтение']
+                values: this.formData.hobby_list,
+                selectedValues: this.serverData.hobby
             });
 
             this.addInput({
                 label: 'Email',
-                value: '',
+                value: this.serverData.email,
                 placeholder: 'example@mail.ru'
             });
 
             this.addTextarea({
                 label: 'Комментарий',
-                value: '',
+                value: this.serverData.comment,
                 placeholder: 'Введите ваш комментарий',
-                rows: 4
+                rows: 15
             });
 
-            this.addSelect({
-                label: 'Пол',
-                values: ['Мужской', 'Женский'],
-                selectedValue: 'Мужской'
-            });
+
+
 
             this.addCheckbox({
                 label: 'Языки программирования',
-                values: ['JavaScript', 'Python', 'C++', 'Java'],
-                selectedValues: ['JavaScript', 'Python']
+                values: this.formData.languages_list,
+                selectedValues: this.serverData.languages
             });
 
             this.setButtonOk({
@@ -99,7 +129,7 @@ export default {
                 }
             });
 
-            this.form = this.generateForm('Форма №1 Без кастомизации');
+            this.form = this.generateForm('Форма №1 данные "с сервера"');
         },
     },
 }
