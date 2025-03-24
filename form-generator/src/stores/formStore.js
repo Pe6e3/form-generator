@@ -1,13 +1,11 @@
 import { defineStore } from "pinia";
 
-export const useFormStore = defineStore({
+export const useFormStore = defineStore('formStore', {
     state: () => ({
-        form: {
             elements: [],
             buttonOk: null,
             buttonCancel: null,
             elemetsCount: 0
-        }
     }),
 
     actions: {
@@ -27,7 +25,7 @@ export const useFormStore = defineStore({
                 console.error('FormStore.addInput: необходимо ввести название поля')
                 return
             }
-            this.form.elements.push(new FormInput(label, value, isDisabled, isShow))
+            this.elements.push(new FormInput(label, value, isDisabled, isShow))
         },
 
         /**
@@ -52,7 +50,7 @@ export const useFormStore = defineStore({
                 return
             }
 
-            this.form.elements.push(new FormSelect(label, values, selectedValue, isDisabled, isShow))
+            this.elements.push(new FormSelect(label, values, selectedValue, isDisabled, isShow))
         },
 
         addCheckbox({
@@ -70,13 +68,13 @@ export const useFormStore = defineStore({
                 return
             }
 
-            this.form.elements.push(new FormCheckbox(label, values, selectedValues, isDisabled, isShow))
+            this.elements.push(new FormCheckbox(label, values, selectedValues, isDisabled, isShow))
         },
 
 
 
         setButtonOk({ text, color, action, isDisabled, isShow }) {
-            this.form.buttonOk = new FormButton(
+            this.buttonOk = new FormButton(
                 text || 'Ok',
                 color = color || 'blue',
                 action = () => action || this.formSubmit(),
@@ -85,7 +83,7 @@ export const useFormStore = defineStore({
         },
 
         setButtonCancel({ text, color, action, isDisabled, isShow }) {
-            this.form.buttonCancel = new FormButton(
+            this.buttonCancel = new FormButton(
                 text || 'Cancel',
                 color = color || 'red',
                 action = () => action || this.formCancel(),
@@ -95,10 +93,10 @@ export const useFormStore = defineStore({
 
 
         getElementIndex(elenent) {
-            return this.form.elements.findIndex(e => e.index === elenent.index)
+            return this.elements.findIndex(e => e.index === elenent.index)
         },
         getElementByIndex(index) {
-            return this.form.elements[index]
+            return this.elements[index]
         },
 
 
@@ -123,7 +121,7 @@ export const FormElementType = Object.freeze({
 
 class FormElement {
     constructor(label, type, value, isDisabled, isShow) {
-        this.index = Form.elemetsCount++
+        this.index = this.elemetsCount++
         this.label = label
         this.type = type
         this.value = value
@@ -141,21 +139,17 @@ class FormInput extends FormElement {
 class FormSelect extends FormElement {
     constructor(label, values, selectedValue, isDisabled, isShow) {
         super(label, type = FormElementType.SELECT, selectedValue, isDisabled, isShow)
-        this.values = values
-
+        if (!Array.isArray(values)) {
+            console.error('FormSelect: values должен быть массивом')
+            return
+        }
         if (selectedValue && !values.includes(selectedValue))
             console.error('FormSelect: selectedValue должен быть одним из значений values')
         this.value = selectedValue || values[0]
-
-        values.forEach(value => {
-            if (value === selectedValue)
-                this.values.push({ name: value, isSelected: true })
-            else
-                this.values.push({
-                    name: value, isSelected: false
-                });
-
-        });
+        this.values = values.map(value => ({
+            name: value,
+            isSelected: value === selectedValue
+        }));
     }
 }
 
@@ -167,22 +161,19 @@ class FormSelect extends FormElement {
 class FormCheckbox extends FormElement {
     constructor(label, checkboxValues, selectedValues, isDisabled, isShow) {
         super(label, type = FormElementType.CHECKBOX, selectedValues, isDisabled, isShow)
-        if (!isArray(checkboxValues)) {
+        if (!Array.isArray(checkboxValues)) {
             console.error('FormCheckbox: checkboxValues должен быть массивом')
             return
         }
-        if (!isArray(selectedValues) && selectedValues) {
+        if (!Array.isArray(selectedValues) && selectedValues) {
             console.error('FormCheckbox: selectedValues должен быть массивом')
             return
         }
+        this.values = checkboxValues.map(value => ({
+            name: value,
+            isSelected: selectedValues.includes(value)
+        }));
 
-        checkboxValues.forEach(checkboxValue => {
-            if (selectedValues.includes(checkboxValue))
-                this.values.push({ name: checkboxValue, isSelected: true })
-            else
-                this.values.push({ name: checkboxValue, isSelected: false })
-
-        });
     }
 }
 
