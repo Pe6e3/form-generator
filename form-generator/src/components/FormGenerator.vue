@@ -9,7 +9,7 @@
 
                         <!-- input -->
                         <div v-if="element.type === 'input'" class="form-group">
-                            <slot :name="'input-' + element.index" :element="element">
+                            <slot :name="element.id" :element="element">
                                 <label for="name" class="form-label">{{ element.label }}</label>
                                 <input type="text" v-model="element.value" :placeholder="element.placeholder"
                                     class="form-control" :disabled="element.isDisabled"
@@ -20,7 +20,7 @@
 
                         <!-- select -->
                         <div v-else-if="element.type === 'select'" class="form-group">
-                            <slot :name="'select-' + element.index" :element="element">
+                            <slot :name="element.id" :element="element">
                                 <label for="name" class="form-label">{{ element.label }}</label>
                                 <select v-model="element.value" class="form-select" :disabled="element.isDisabled"
                                     @change="handleInputChange(element)">
@@ -35,7 +35,7 @@
 
                         <!-- checkbox -->
                         <div v-else-if="element.type === 'checkbox'" class="form-group">
-                            <slot :name="'checkbox-' + element.index" :element="element">
+                            <slot :name="element.id" :element="element">
                                 <label class="form-label">{{ element.label }}</label>
                                 <div v-for="value in element.values" :key="value.name" class="form-check">
                                     <input type="checkbox" :value="value.name" v-model="element.value"
@@ -48,7 +48,7 @@
 
                         <!-- textarea -->
                         <div v-else-if="element.type === 'textarea'" class="form-group">
-                            <slot :name="'textarea-' + element.index" :element="element">
+                            <slot :name="element.id" :element="element">
                                 <label for="name" class="form-label">{{ element.label }}</label>
                                 <textarea v-model="element.value" :placeholder="element.placeholder"
                                     class="form-control" :disabled="element.isDisabled" :rows="element.rows"

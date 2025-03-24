@@ -3,69 +3,7 @@
         <form-generator v-if="form" :form="form" class="w-50 mx-auto" @button-click="handleButtonClick"
             @input-change="handleInputChange">
 
-            <!-- Кастомизация поля Имя -->
-            <template #input-0="{ element }">
-                <label for="name" class="form-label">
-                    {{ element.label }}
-                    <span class="text-danger">*</span>
-                </label>
-                <div class="input-group">
-                    <span class="input-group-text">
-                        <i class="bi bi-person"></i>
-                    </span>
-                    <input type="text" v-model="element.value" :placeholder="element.placeholder" class="form-control"
-                        :disabled="element.isDisabled" @input="handleInputChange(element)">
-                </div>
-            </template>
-
-            <!-- Кастомизация поля Email -->
-            <template #input-3="{ element }">
-                <label for="email" class="form-label">
-                    {{ element.label }}
-                    <span class="text-danger">*</span>
-                </label>
-                <div class="input-group">
-                    <span class="input-group-text">
-                        <i class="bi bi-envelope"></i>
-                    </span>
-                    <input type="email" v-model="element.value" :placeholder="element.placeholder" class="form-control"
-                        :disabled="element.isDisabled" @input="handleInputChange(element)">
-                </div>
-            </template>
-
-            <!-- Кастомизация поля Комментарий -->
-            <template #textarea-4="{ element }">
-                <label for="comment" class="form-label">
-                    {{ element.label }}
-                    <small class="text-muted">(необязательно)</small>
-                </label>
-                <div class="input-group">
-                    <span class="input-group-text">
-                        <i class="bi bi-chat"></i>
-                    </span>
-                    <textarea v-model="element.value" :placeholder="element.placeholder" class="form-control"
-                        :disabled="element.isDisabled" :rows="element.rows"
-                        @input="handleInputChange(element)"></textarea>
-                </div>
-            </template>
-
-            <!-- Кастомизация поля Хобби -->
-            <template #checkbox-2="{ element }">
-                <label class="form-label">
-                    {{ element.label }}
-                    <small class="text-muted">(выберите хотя бы одно)</small>
-                </label>
-                <div class="row">
-                    <div v-for="value in element.values" :key="value.name" class="col-md-6">
-                        <div class="form-check">
-                            <input type="checkbox" :value="value.name" v-model="element.value" class="form-check-input"
-                                :checked="value.isSelected" @change="handleInputChange(element)">
-                            <label class="form-check-label">{{ value.name }}</label>
-                        </div>
-                    </div>
-                </div>
-            </template>
-
+         
         </form-generator>
     </div>
 </template>
@@ -90,7 +28,7 @@ export default {
         this.initForm();
     },
     methods: {
-        ...mapActions(useFormStore, ['addInput', 'addSelect', 'addCheckbox', 'addRadio', 'addTextarea', 'addButton', 'addSubmit', 'generateForm', 'setButtonOk', 'setButtonCancel', 'updateElementValue', 'collectFormData']),
+        ...mapActions(useFormStore, ['addInput', 'addSelect', 'addCheckbox', 'addRadio', 'addTextarea', 'addButton', 'addSubmit', 'generateForm', 'setButtonOk', 'setButtonCancel', 'updateElementValue', 'collectFormData', 'resetForm']),
 
         handleButtonClick({ type, button }) {
             if (type === 'ok') {
@@ -149,30 +87,21 @@ export default {
             });
 
             this.setButtonOk({
-                text: 'Отправить',
-                color: 'green',
-                textColor: 'white',
                 action: () => {
                     const formData = this.collectFormData(this.form);
-                    console.log(`Данные формы ${this.form.title}:`, formData);
+                    alert(`Отправка: ${this.form.title}:\n${JSON.stringify(formData, null, 2)}`);
                 }
             });
 
             this.setButtonCancel({
-                text: 'Отменить',
-                color: 'orange',
-                textColor: 'darkred',
                 action: () => {
-                    console.log('Отменить');
+                    alert('Отменить');
                 }
             });
 
-
-            this.form = this.generateForm('Форма №1');
+            this.form = this.generateForm('Форма №1 Без кастомизации');
         },
-
     },
-
 }
 </script>
 

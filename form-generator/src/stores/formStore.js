@@ -10,9 +10,10 @@ export const useFormStore = defineStore('formStore', {
 
     actions: {
         generateForm(title) {
-            return {
+            const form = {
                 title: title,
                 elements: this.elements.map(element => ({
+                    id: element.id,
                     index: element.index,
                     label: element.label,
                     type: element.type,
@@ -39,10 +40,14 @@ export const useFormStore = defineStore('formStore', {
                     action: this.buttonCancel.action
                 } : null,
             };
+
+            this.resetForm(); // очищаем стор после генерации формы
+            return form;
         },
 
         createFormElement({ label, type, value, placeholder, isDisabled, isShow }) {
             return {
+                id: label.toLowerCase().replace(/\s+/g, '-'),
                 index: this.elemetsCount++,
                 label,
                 type,
@@ -214,6 +219,13 @@ export const useFormStore = defineStore('formStore', {
 
         formCancel() {
             console.log('formCancel')
+        },
+
+        resetForm() {
+            this.elements = [];
+            this.buttonOk = null;
+            this.buttonCancel = null;
+            this.elemetsCount = 0;
         }
     }
 })
