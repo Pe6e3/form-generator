@@ -19,7 +19,7 @@ export const useFormStore = defineStore({
          * @param {Boolean} isShow - отображается ли поле
          */
         addInput({
-            label,  
+            label,
             value = null,
             isDisabled = false,
             isShow = true }) {
@@ -38,8 +38,8 @@ export const useFormStore = defineStore({
          * @param {Boolean} isShow - отображается ли поле
          */
         addSelect({
-            label, // название поля обязательно
-            values = [], 
+            label,
+            values = [],
             selectedValue = values[0],
             isDisabled = false,
             isShow = true }) {
@@ -55,7 +55,25 @@ export const useFormStore = defineStore({
             this.form.elements.push(new FormSelect(label, values, selectedValue, isDisabled, isShow))
         },
 
-        
+        addCheckbox({
+            label,
+            values = [],
+            selectedValues = [],
+            isDisabled = false,
+            isShow = true }) {
+            if (!label) {
+                console.error('FormStore.addCheckbox: необходимо ввести название поля')
+                return
+            }
+            if (values.length === 0) {
+                console.error('FormStore.addCheckbox: необходимо ввести массив значений для выбора')
+                return
+            }
+
+            this.form.elements.push(new FormCheckbox(label, values, selectedValues, isDisabled, isShow))
+        },
+
+
 
         setButtonOk({ text, color, action, isDisabled, isShow }) {
             this.form.buttonOk = new FormButton(
@@ -94,6 +112,15 @@ export const useFormStore = defineStore({
     }
 })
 
+export const FormElementType = Object.freeze({
+    INPUT: 'input',
+    SELECT: 'select',
+    CHECKBOX: 'checkbox',
+    TEXTAREA: 'textarea',
+    BUTTON: 'button',
+    IMAGE: 'image'
+})
+
 class FormElement {
     constructor(label, type, value, isDisabled, isShow) {
         this.index = Form.elemetsCount++
@@ -105,15 +132,6 @@ class FormElement {
     }
 }
 
-export const FormElementType = Object.freeze({
-    INPUT: 'input',
-    SELECT: 'select',
-    CHECKBOX: 'checkbox',
-    TEXTAREA: 'textarea',
-    BUTTON: 'button',
-    IMAGE: 'image'
-})
-
 class FormInput extends FormElement {
     constructor(label, value, isDisabled, isShow) {
         super(label, type = FormElementType.INPUT, value, isDisabled, isShow)
@@ -124,8 +142,50 @@ class FormSelect extends FormElement {
     constructor(label, values, selectedValue, isDisabled, isShow) {
         super(label, type = FormElementType.SELECT, selectedValue, isDisabled, isShow)
         this.values = values
+
+        if (selectedValue && !values.includes(selectedValue))
+            console.error('FormSelect: selectedValue должен быть одним из значений values')
+        this.value = selectedValue || values[0]
+
+        values.forEach(value => {
+            if (value === selectedValue)
+                this.values.push({ name: value, isSelected: true })
+            else
+                this.values.push({
+                    name: value, isSelected: false
+                });
+
+        });
     }
 }
+
+/**
+* @param {String} label - название поля
+* @param {Array} checkboxValues - массив значений для выбора
+* @param {Array} selectedValues - массив выбранных значений
+*/
+class FormCheckbox extends FormElement {
+    constructor(label, checkboxValues, selectedValues, isDisabled, isShow) {
+        super(label, type = FormElementType.CHECKBOX, selectedValues, isDisabled, isShow)
+        if (!isArray(checkboxValues)) {
+            console.error('FormCheckbox: checkboxValues должен быть массивом')
+            return
+        }
+        if (!isArray(selectedValues) && selectedValues) {
+            console.error('FormCheckbox: selectedValues должен быть массивом')
+            return
+        }
+
+        checkboxValues.forEach(checkboxValue => {
+            if (selectedValues.includes(checkboxValue))
+                this.values.push({ name: checkboxValue, isSelected: true })
+            else
+                this.values.push({ name: checkboxValue, isSelected: false })
+
+        });
+    }
+}
+
 
 class FormButton {
     constructor(text, color, action, isDisabled, isShow) {
