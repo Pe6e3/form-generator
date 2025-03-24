@@ -9,43 +9,51 @@
 
                         <!-- input -->
                         <div v-if="element.type === 'input'" class="form-group">
-                            <label for="name" class="form-label">{{ element.label }}</label>
-                            <input type="text" v-model="element.value" :placeholder="element.placeholder"
-                                class="form-control" :disabled="element.isDisabled" @input="handleInputChange(element)">
+                            <slot :name="'input-' + element.index" :element="element">
+                                <label for="name" class="form-label">{{ element.label }}</label>
+                                <input type="text" v-model="element.value" :placeholder="element.placeholder"
+                                    class="form-control" :disabled="element.isDisabled"
+                                    @input="handleInputChange(element)">
+                            </slot>
                         </div>
 
 
                         <!-- select -->
                         <div v-else-if="element.type === 'select'" class="form-group">
-                            <label for="name" class="form-label">{{ element.label }}</label>
-
-                            <select v-model="element.value" class="form-select" :disabled="element.isDisabled"
-                                @change="handleInputChange(element)">
-                                <option v-for="value in element.values" :key="value.name" :value="value.name"
-                                    :selected="value.isSelected">
-                                    {{ value.name }}
-                                </option>
-                            </select>
+                            <slot :name="'select-' + element.index" :element="element">
+                                <label for="name" class="form-label">{{ element.label }}</label>
+                                <select v-model="element.value" class="form-select" :disabled="element.isDisabled"
+                                    @change="handleInputChange(element)">
+                                    <option v-for="value in element.values" :key="value.name" :value="value.name"
+                                        :selected="value.isSelected">
+                                        {{ value.name }}
+                                    </option>
+                                </select>
+                            </slot>
                         </div>
 
 
                         <!-- checkbox -->
                         <div v-else-if="element.type === 'checkbox'" class="form-group">
-                            <label class="form-label">{{ element.label }}</label>
-                            <div v-for="value in element.values" :key="value.name" class="form-check">
-                                <input type="checkbox" :value="value.name" v-model="element.value"
-                                    class="form-check-input" :checked="value.isSelected"
-                                    @change="handleInputChange(element)">
-                                <label class="form-check-label">{{ value.name }}</label>
-                            </div>
+                            <slot :name="'checkbox-' + element.index" :element="element">
+                                <label class="form-label">{{ element.label }}</label>
+                                <div v-for="value in element.values" :key="value.name" class="form-check">
+                                    <input type="checkbox" :value="value.name" v-model="element.value"
+                                        class="form-check-input" :checked="value.isSelected"
+                                        @change="handleInputChange(element)">
+                                    <label class="form-check-label">{{ value.name }}</label>
+                                </div>
+                            </slot>
                         </div>
 
                         <!-- textarea -->
                         <div v-else-if="element.type === 'textarea'" class="form-group">
-                            <label for="name" class="form-label">{{ element.label }}</label>
-                            <textarea v-model="element.value" :placeholder="element.placeholder" class="form-control"
-                                :disabled="element.isDisabled" :rows="element.rows"
-                                @input="handleInputChange(element)"></textarea>
+                            <slot :name="'textarea-' + element.index" :element="element">
+                                <label for="name" class="form-label">{{ element.label }}</label>
+                                <textarea v-model="element.value" :placeholder="element.placeholder"
+                                    class="form-control" :disabled="element.isDisabled" :rows="element.rows"
+                                    @input="handleInputChange(element)"></textarea>
+                            </slot>
                         </div>
 
                     </div>

@@ -5,7 +5,7 @@ import router from './js/router'
 import './styles/main.scss'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
-// import 'bootstrap-icons/font/bootstrap-icons.css'
+import './styles/bootstrap-icons.scss'
 
 const app = createApp(App)
 app.use(createPinia())

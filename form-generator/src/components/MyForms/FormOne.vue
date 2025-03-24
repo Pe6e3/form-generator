@@ -1,7 +1,72 @@
 <template>
     <div>
         <form-generator v-if="form" :form="form" class="w-50 mx-auto" @button-click="handleButtonClick"
-            @input-change="handleInputChange" />
+            @input-change="handleInputChange">
+
+            <!-- Кастомизация поля Имя -->
+            <template #input-0="{ element }">
+                <label for="name" class="form-label">
+                    {{ element.label }}
+                    <span class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-person"></i>
+                    </span>
+                    <input type="text" v-model="element.value" :placeholder="element.placeholder" class="form-control"
+                        :disabled="element.isDisabled" @input="handleInputChange(element)">
+                </div>
+            </template>
+
+            <!-- Кастомизация поля Email -->
+            <template #input-3="{ element }">
+                <label for="email" class="form-label">
+                    {{ element.label }}
+                    <span class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-envelope"></i>
+                    </span>
+                    <input type="email" v-model="element.value" :placeholder="element.placeholder" class="form-control"
+                        :disabled="element.isDisabled" @input="handleInputChange(element)">
+                </div>
+            </template>
+
+            <!-- Кастомизация поля Комментарий -->
+            <template #textarea-4="{ element }">
+                <label for="comment" class="form-label">
+                    {{ element.label }}
+                    <small class="text-muted">(необязательно)</small>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-chat"></i>
+                    </span>
+                    <textarea v-model="element.value" :placeholder="element.placeholder" class="form-control"
+                        :disabled="element.isDisabled" :rows="element.rows"
+                        @input="handleInputChange(element)"></textarea>
+                </div>
+            </template>
+
+            <!-- Кастомизация поля Хобби -->
+            <template #checkbox-2="{ element }">
+                <label class="form-label">
+                    {{ element.label }}
+                    <small class="text-muted">(выберите хотя бы одно)</small>
+                </label>
+                <div class="row">
+                    <div v-for="value in element.values" :key="value.name" class="col-md-6">
+                        <div class="form-check">
+                            <input type="checkbox" :value="value.name" v-model="element.value" class="form-check-input"
+                                :checked="value.isSelected" @change="handleInputChange(element)">
+                            <label class="form-check-label">{{ value.name }}</label>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+        </form-generator>
     </div>
 </template>
 
@@ -111,4 +176,21 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.input-group-text {
+    background-color: #f8f9fa;
+    border-right: none;
+}
+
+.input-group .form-control {
+    border-left: none;
+}
+
+.input-group .form-control:focus {
+    border-color: #ced4da;
+}
+
+.input-group:focus-within {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+</style>
