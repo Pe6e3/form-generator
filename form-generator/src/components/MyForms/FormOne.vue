@@ -1,7 +1,6 @@
 <template>
     <div>
 
-        <h1>Пример формы №1</h1>
        
         <form-generator v-if="form" :form="form" />
     </div>
