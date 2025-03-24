@@ -11,13 +11,51 @@ export const useFormStore = defineStore({
     }),
 
     actions: {
-        addInput(label, value, isDisabled, isShow) {
+
+        /**
+         * @param {String} label - название поля (*обязательно)
+         * @param {String} value - значение поля
+         * @param {Boolean} isDisabled - заблокировано ли поле
+         * @param {Boolean} isShow - отображается ли поле
+         */
+        addInput({
+            label,  
+            value = null,
+            isDisabled = false,
+            isShow = true }) {
+            if (!label) {
+                console.error('FormStore.addInput: необходимо ввести название поля')
+                return
+            }
             this.form.elements.push(new FormInput(label, value, isDisabled, isShow))
         },
 
-        addSelect(label, value, isDisabled, isShow) {
-            this.form.elements.push(new FormSelect(label, value, isDisabled, isShow))
+        /**
+         * @param {String} label - название поля (*обязательно)
+         * @param {Array} values - массив значений для выбора (*обязательно)
+         * @param {String} selectedValue - выбранное значение (по умолчанию первое)
+         * @param {Boolean} isDisabled - заблокировано ли поле
+         * @param {Boolean} isShow - отображается ли поле
+         */
+        addSelect({
+            label, // название поля обязательно
+            values = [], 
+            selectedValue = values[0],
+            isDisabled = false,
+            isShow = true }) {
+            if (!label) {
+                console.error('FormStore.addSelect: необходимо ввести название поля')
+                return
+            }
+            if (values.length === 0) {
+                console.error('FormStore.addSelect: необходимо ввести массив значений для выбора')
+                return
+            }
+
+            this.form.elements.push(new FormSelect(label, values, selectedValue, isDisabled, isShow))
         },
+
+        
 
         setButtonOk({ text, color, action, isDisabled, isShow }) {
             this.form.buttonOk = new FormButton(
@@ -79,6 +117,13 @@ export const FormElementType = Object.freeze({
 class FormInput extends FormElement {
     constructor(label, value, isDisabled, isShow) {
         super(label, type = FormElementType.INPUT, value, isDisabled, isShow)
+    }
+}
+
+class FormSelect extends FormElement {
+    constructor(label, values, selectedValue, isDisabled, isShow) {
+        super(label, type = FormElementType.SELECT, selectedValue, isDisabled, isShow)
+        this.values = values
     }
 }
 
