@@ -2,10 +2,10 @@ import { defineStore } from "pinia";
 
 export const useFormStore = defineStore('formStore', {
     state: () => ({
-            elements: [],
-            buttonOk: null,
-            buttonCancel: null,
-            elemetsCount: 0
+        elements: [],
+        buttonOk: null,
+        buttonCancel: null,
+        elemetsCount: 0
     }),
 
     actions: {
@@ -20,12 +20,15 @@ export const useFormStore = defineStore('formStore', {
             label,
             value = null,
             isDisabled = false,
+            placeholder = null,
             isShow = true }) {
             if (!label) {
                 console.error('FormStore.addInput: необходимо ввести название поля')
                 return
             }
-            this.elements.push(new FormInput(label, value, isDisabled, isShow))
+            const input = new FormInput(label, value, placeholder, isDisabled, isShow)
+            console.log('%cinput:', 'background: yellow; color: black; border-radius: 4px; padding: 2px;', input);
+            this.elements.push(input)
         },
 
         /**
@@ -120,9 +123,11 @@ export const FormElementType = Object.freeze({
 })
 
 class FormElement {
-    constructor(label, type, value, isDisabled, isShow) {
-        this.index = this.elemetsCount++
+    constructor(label, type, value, placeholder, isDisabled, isShow) {
+        const formStore = useFormStore()
+        this.index = formStore.elemetsCount++
         this.label = label
+        this.placeholder = placeholder
         this.type = type
         this.value = value
         this.isDisabled = isDisabled
@@ -131,14 +136,14 @@ class FormElement {
 }
 
 class FormInput extends FormElement {
-    constructor(label, value, isDisabled, isShow) {
-        super(label, type = FormElementType.INPUT, value, isDisabled, isShow)
+    constructor(label, value, placeholder, isDisabled, isShow) {
+        super(label, FormElementType.INPUT, value, placeholder, isDisabled, isShow)
     }
 }
 
 class FormSelect extends FormElement {
     constructor(label, values, selectedValue, isDisabled, isShow) {
-        super(label, type = FormElementType.SELECT, selectedValue, isDisabled, isShow)
+        super(label, FormElementType.SELECT, selectedValue, isDisabled, isShow)
         if (!Array.isArray(values)) {
             console.error('FormSelect: values должен быть массивом')
             return
@@ -160,7 +165,7 @@ class FormSelect extends FormElement {
 */
 class FormCheckbox extends FormElement {
     constructor(label, checkboxValues, selectedValues, isDisabled, isShow) {
-        super(label, type = FormElementType.CHECKBOX, selectedValues, isDisabled, isShow)
+        super(label, FormElementType.CHECKBOX, selectedValues, isDisabled, isShow)
         if (!Array.isArray(checkboxValues)) {
             console.error('FormCheckbox: checkboxValues должен быть массивом')
             return
