@@ -29,6 +29,7 @@ export const useFormStore = defineStore('formStore', {
                     textColor: this.buttonOk.textColor,
                     isDisabled: this.buttonOk.isDisabled,
                     isShow: this.buttonOk.isShow,
+                    action: this.buttonOk.action
                 } : null,
                 buttonCancel: this.buttonCancel ? {
                     text: this.buttonCancel.text,
@@ -36,10 +37,11 @@ export const useFormStore = defineStore('formStore', {
                     textColor: this.buttonCancel.textColor,
                     isDisabled: this.buttonCancel.isDisabled,
                     isShow: this.buttonCancel.isShow,
+                    action: this.buttonCancel.action
                 } : null,
             };
         },
-        
+
 
         /**
          * @param {String} label - название поля (*обязательно)
@@ -115,11 +117,12 @@ export const useFormStore = defineStore('formStore', {
         setButtonOk({ text, color, textColor, action, isDisabled, isShow }) {
             this.buttonOk = new FormButton(
                 text || 'Ok',
-                color = color || 'blue',
-                textColor = textColor || 'white',
-                action = () => action || this.formSubmit(),
-                isDisabled = isDisabled || false,
-                isShow = isShow || true)
+                color || 'blue',
+                textColor || 'white',
+                action || this.formSubmit,
+                isDisabled || false,
+                isShow || true
+            )
         },
 
         /**
@@ -132,12 +135,12 @@ export const useFormStore = defineStore('formStore', {
         setButtonCancel({ text, color, textColor, action, isDisabled, isShow }) {
             this.buttonCancel = new FormButton(
                 text || 'Cancel',
-                color = color || 'red',
-                textColor = textColor || 'white',
-                action = () => action || this.formCancel(),
-                isDisabled = isDisabled || false,
-                isShow = isShow || true)
-            console.log(this.buttonCancel)
+                color || 'red',
+                textColor || 'white',
+                action || this.formCancel,
+                isDisabled || false,
+                isShow || true
+            )
         },
 
 

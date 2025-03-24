@@ -1,5 +1,5 @@
 <template>
-    <form-generator v-if="form" :form="form" class="w-50 mx-auto" />
+    <form-generator v-if="form" :form="form" class="w-50 mx-auto" @button-click="handleButtonClick" />
 </template>
 
 <script>
@@ -23,6 +23,14 @@ export default {
     },
     methods: {
         ...mapActions(useFormStore, ['addInput', 'addSelect', 'addCheckbox', 'addRadio', 'addTextarea', 'addButton', 'addSubmit', 'generateForm', 'setButtonOk', 'setButtonCancel']),
+
+        handleButtonClick({ type, button }) {
+            if (type === 'ok') {
+                console.log('Отправить');
+            } else if (type === 'cancel') {
+                console.log('Отменить');
+            }
+        },
 
         initForm() {
             this.addInput({

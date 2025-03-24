@@ -4,7 +4,7 @@
             <div class="card-body">
                 <h1 class="card-title text-center mb-4">{{ form.title }}</h1>
 
-                <form class="w-75 mx-auto">
+                <div class="w-75 mx-auto">
                     <div v-for="element in form.elements" :key="element.index" class="mb-4">
                         <div v-if="element.type === 'input'" class="form-group">
                             <label for="name" class="form-label">{{ element.label }}</label>
@@ -35,20 +35,20 @@
                             background: form.buttonOk.color,
                             color: form.buttonOk.textColor
                         }
-                            " @click="form.buttonOk.action">
+                            " @click="form.buttonOk.action" :disabled="form.buttonOk.isDisabled">
                             {{ form.buttonOk.text }}
                         </button>
 
-                        <button v-if="form.buttonCancel && form.buttonCancel.isShow" type="reset" class="btn" :style="{
+                        <button v-if="form.buttonCancel && form.buttonCancel.isShow" class="btn" :style="{
                             background: form.buttonCancel.color,
                             color: form.buttonCancel.textColor
                         }
-                            " @click="form.buttonCancel.action">
+                            " @click="form.buttonCancel.action" :disabled="form.buttonCancel.isDisabled">
                             {{ form.buttonCancel.text }}
                         </button>
 
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
