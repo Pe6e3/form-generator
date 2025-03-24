@@ -119,6 +119,26 @@ export const useFormStore = defineStore('formStore', {
             this.elements.push(checkbox);
         },
 
+        addTextarea({ label, value = null, isDisabled = false, placeholder = null, isShow = true, rows = 3 }) {
+            if (!label) {
+                console.error('FormStore.addTextarea: необходимо ввести название поля')
+                return
+            }
+
+            const textarea = {
+                ...this.createFormElement({
+                    label,
+                    type: FormElementType.TEXTAREA,
+                    value,
+                    placeholder,
+                    isDisabled,
+                    isShow
+                }),
+                rows
+            };
+            this.elements.push(textarea);
+        },
+
         setButtonOk({ text, color, textColor, action, isDisabled, isShow }) {
             this.buttonOk = {
                 text: text || 'Ok',
@@ -178,6 +198,9 @@ export const useFormStore = defineStore('formStore', {
                         formData[element.label] = element.value;
                         break;
                     case 'checkbox':
+                        formData[element.label] = element.value;
+                        break;
+                    case 'textarea':
                         formData[element.label] = element.value;
                         break;
                 }

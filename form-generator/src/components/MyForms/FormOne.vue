@@ -64,6 +64,13 @@ export default {
                 placeholder: 'example@mail.ru'
             });
 
+            this.addTextarea({
+                label: 'Комментарий',
+                value: '',
+                placeholder: 'Введите ваш комментарий',
+                rows: 4
+            });
+
             this.addSelect({
                 label: 'Пол',
                 values: ['Мужской', 'Женский'],

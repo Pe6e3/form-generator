@@ -40,6 +40,13 @@
                             </div>
                         </div>
 
+                        <!-- textarea -->
+                        <div v-else-if="element.type === 'textarea'" class="form-group">
+                            <label for="name" class="form-label">{{ element.label }}</label>
+                            <textarea v-model="element.value" :placeholder="element.placeholder" class="form-control"
+                                :disabled="element.isDisabled" :rows="element.rows"
+                                @input="handleInputChange(element)"></textarea>
+                        </div>
 
                     </div>
 
