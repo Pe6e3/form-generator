@@ -9,12 +9,12 @@
                         <div v-if="element.type === 'input'" class="form-group">
                             <label for="name" class="form-label">{{ element.label }}</label>
                             <input type="text" v-model="element.value" :placeholder="element.placeholder"
-                                class="form-control">
+                                class="form-control" :disabled="element.isDisabled">
                         </div>
 
                         <div v-else-if="element.type === 'select'" class="form-group">
                             <label for="name" class="form-label">{{ element.label }}</label>
-                            <select v-model="element.selectedValue" class="form-select">
+                            <select v-model="element.selectedValue" class="form-select" :disabled="element.isDisabled">
                                 <option v-for="value in element.values" :key="value" :value="value">{{ value.name }}
                                 </option>
                             </select>

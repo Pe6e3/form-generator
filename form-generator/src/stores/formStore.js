@@ -84,7 +84,6 @@ export const useFormStore = defineStore('formStore', {
                 console.error('FormStore.addSelect: необходимо ввести массив значений для выбора')
                 return
             }
-
             this.elements.push(new FormSelect(label, values, selectedValue, isDisabled, isShow))
         },
 
@@ -192,7 +191,7 @@ class FormInput extends FormElement {
 
 class FormSelect extends FormElement {
     constructor(label, values, selectedValue, isDisabled, isShow) {
-        super(label, FormElementType.SELECT, selectedValue, isDisabled, isShow)
+        super(label, FormElementType.SELECT, selectedValue, null, isDisabled, isShow)
         if (!Array.isArray(values)) {
             console.error('FormSelect: values должен быть массивом')
             return

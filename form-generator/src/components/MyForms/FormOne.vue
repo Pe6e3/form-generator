@@ -80,8 +80,8 @@ export default {
 
             this.setButtonCancel({
                 text: 'Отменить',
-                color: 'red',
-                textColor: 'white',
+                color: 'orange',
+                textColor: 'darkred',
                 action: () => {
                     console.log('Отменить');
                 }
