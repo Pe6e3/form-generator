@@ -1,5 +1,6 @@
 <template>
-    <form>
+    <form class="w-50 mx-auto mt-5">
+        <h1>Form</h1>
         <div class="form-group">
             <label for="name">Input</label>
             <input type="text" class="form-control" id="name" placeholder="Enter name">
@@ -23,6 +24,7 @@ export default {
     name: 'FormGenerator',
     data() {
         return {
+             
         };
     },
     methods: {
