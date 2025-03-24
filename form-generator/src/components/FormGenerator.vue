@@ -6,28 +6,38 @@
 
                 <div class="w-75 mx-auto">
                     <div v-for="element in form.elements" :key="element.index" class="mb-4">
+
+                        <!-- input -->
                         <div v-if="element.type === 'input'" class="form-group">
                             <label for="name" class="form-label">{{ element.label }}</label>
                             <input type="text" v-model="element.value" :placeholder="element.placeholder"
                                 class="form-control" :disabled="element.isDisabled">
                         </div>
 
+
+                        <!-- select -->
                         <div v-else-if="element.type === 'select'" class="form-group">
                             <label for="name" class="form-label">{{ element.label }}</label>
-                            <select v-model="element.selectedValue" class="form-select" :disabled="element.isDisabled">
-                                <option v-for="value in element.values" :key="value" :value="value">{{ value.name }}
+                            
+                            <select v-model="element.value" class="form-select" :disabled="element.isDisabled">
+                                <option v-for="value in element.values" :key="value.name" :value="value.name" :selected="value.isSelected">
+                                    {{ value.name }}
                                 </option>
                             </select>
                         </div>
 
+
+                        <!-- checkbox -->
                         <div v-else-if="element.type === 'checkbox'" class="form-group">
                             <label class="form-label">{{ element.label }}</label>
-                            <div v-for="value in element.values" :key="value" class="form-check">
-                                <input type="checkbox" :value="value" v-model="element.selectedValues"
-                                    class="form-check-input">
+                            <div v-for="value in element.values" :key="value.name" class="form-check">
+                                <input type="checkbox" :value="value.name" v-model="element.value"
+                                    class="form-check-input" :checked="value.isSelected">
                                 <label class="form-check-label">{{ value.name }}</label>
                             </div>
                         </div>
+
+
                     </div>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
