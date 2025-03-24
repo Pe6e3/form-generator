@@ -62,6 +62,7 @@ export const useFormStore = defineStore('formStore', {
                 ...this.createFormElement({ label, type: FormElementType.INPUT, value, placeholder, isDisabled, isShow })
             };
             this.elements.push(input);
+            return input.value
         },
 
         addSelect({ label, values = [], selectedValue = values[0], isDisabled = false, isShow = true }) {
@@ -146,6 +147,42 @@ export const useFormStore = defineStore('formStore', {
 
         getElementByIndex(index) {
             return this.elements[index]
+        },
+
+        updateElementValue(index, value) {
+            const element = this.elements.find(e => e.index === index);
+            if (element) {
+                element.value = value;
+                if (element.type === FormElementType.SELECT) {
+                    element.values = element.values.map(v => ({
+                        ...v,
+                        isSelected: v.name === value
+                    }));
+                } else if (element.type === FormElementType.CHECKBOX) {
+                    element.values = element.values.map(v => ({
+                        ...v,
+                        isSelected: value.includes(v.name)
+                    }));
+                }
+            }
+        },
+
+        collectFormData(form) {
+            const formData = {};
+            form.elements.forEach(element => {
+                switch (element.type) {
+                    case 'input':
+                        formData[element.label] = element.value;
+                        break;
+                    case 'select':
+                        formData[element.label] = element.value;
+                        break;
+                    case 'checkbox':
+                        formData[element.label] = element.value;
+                        break;
+                }
+            });
+            return formData;
         },
 
         async formSubmit() {

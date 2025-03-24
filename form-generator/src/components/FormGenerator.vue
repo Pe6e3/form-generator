@@ -11,16 +11,18 @@
                         <div v-if="element.type === 'input'" class="form-group">
                             <label for="name" class="form-label">{{ element.label }}</label>
                             <input type="text" v-model="element.value" :placeholder="element.placeholder"
-                                class="form-control" :disabled="element.isDisabled">
+                                class="form-control" :disabled="element.isDisabled" @input="handleInputChange(element)">
                         </div>
 
 
                         <!-- select -->
                         <div v-else-if="element.type === 'select'" class="form-group">
                             <label for="name" class="form-label">{{ element.label }}</label>
-                            
-                            <select v-model="element.value" class="form-select" :disabled="element.isDisabled">
-                                <option v-for="value in element.values" :key="value.name" :value="value.name" :selected="value.isSelected">
+
+                            <select v-model="element.value" class="form-select" :disabled="element.isDisabled"
+                                @change="handleInputChange(element)">
+                                <option v-for="value in element.values" :key="value.name" :value="value.name"
+                                    :selected="value.isSelected">
                                     {{ value.name }}
                                 </option>
                             </select>
@@ -32,7 +34,8 @@
                             <label class="form-label">{{ element.label }}</label>
                             <div v-for="value in element.values" :key="value.name" class="form-check">
                                 <input type="checkbox" :value="value.name" v-model="element.value"
-                                    class="form-check-input" :checked="value.isSelected">
+                                    class="form-check-input" :checked="value.isSelected"
+                                    @change="handleInputChange(element)">
                                 <label class="form-check-label">{{ value.name }}</label>
                             </div>
                         </div>
@@ -78,9 +81,15 @@ export default {
             required: true
         }
     },
+    methods: {
+        handleInputChange(element) {
+            this.$emit('input-change', {
+                index: element.index,
+                value: element.value
+            });
+        }
+    }
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

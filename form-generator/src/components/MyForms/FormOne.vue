@@ -1,5 +1,8 @@
 <template>
-    <form-generator v-if="form" :form="form" class="w-50 mx-auto" @button-click="handleButtonClick" />
+    <div>
+        <form-generator v-if="form" :form="form" class="w-50 mx-auto" @button-click="handleButtonClick"
+            @input-change="handleInputChange" />
+    </div>
 </template>
 
 <script>
@@ -9,10 +12,10 @@ import { mapActions, mapState } from 'pinia';
 export default {
     name: 'FormOne',
     components: { FormGenerator },
-
     computed: {
-        // ...mapState(useFormStore, ['form']),
+        ...mapState(useFormStore, ['elements']),
     },
+
     data() {
         return {
             form: null,
@@ -22,7 +25,7 @@ export default {
         this.initForm();
     },
     methods: {
-        ...mapActions(useFormStore, ['addInput', 'addSelect', 'addCheckbox', 'addRadio', 'addTextarea', 'addButton', 'addSubmit', 'generateForm', 'setButtonOk', 'setButtonCancel']),
+        ...mapActions(useFormStore, ['addInput', 'addSelect', 'addCheckbox', 'addRadio', 'addTextarea', 'addButton', 'addSubmit', 'generateForm', 'setButtonOk', 'setButtonCancel', 'updateElementValue', 'collectFormData']),
 
         handleButtonClick({ type, button }) {
             if (type === 'ok') {
@@ -30,6 +33,10 @@ export default {
             } else if (type === 'cancel') {
                 console.log('Отменить');
             }
+        },
+
+        handleInputChange({ index, value }) {
+            this.updateElementValue(index, value);
         },
 
         initForm() {
@@ -74,7 +81,8 @@ export default {
                 color: 'green',
                 textColor: 'white',
                 action: () => {
-                    console.log('Отправить');
+                    const formData = this.collectFormData(this.form);
+                    console.log(`Данные формы ${this.form.title}:`, formData);
                 }
             });
 
