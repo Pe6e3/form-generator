@@ -59,15 +59,16 @@
                     </div>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button v-if="form.buttonOk && form.buttonOk.isShow" class="btn btn-primary me-md-2" :style="{
-                            background: form.buttonOk.color,
-                            color: form.buttonOk.textColor
-                        }
-                            " @click="form.buttonOk.action" :disabled="form.buttonOk.isDisabled">
+                        <button v-if="form.buttonOk && form.buttonOk.isShow"
+                            class="btn btn-primary me-md-2 custom-button" :style="{
+                                background: form.buttonOk.color,
+                                color: form.buttonOk.textColor
+                            }
+                                " @click="form.buttonOk.action" :disabled="form.buttonOk.isDisabled">
                             {{ form.buttonOk.text }}
                         </button>
 
-                        <button v-if="form.buttonCancel && form.buttonCancel.isShow" class="btn" :style="{
+                        <button v-if="form.buttonCancel && form.buttonCancel.isShow" class="btn custom-button" :style="{
                             background: form.buttonCancel.color,
                             color: form.buttonCancel.textColor
                         }
@@ -107,4 +108,24 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.custom-button {
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+
+    &:hover:not(:disabled) {
+        filter: brightness(0.9);
+        transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(0);
+    }
+
+    &:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+}
+</style>
