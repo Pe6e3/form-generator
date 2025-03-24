@@ -3,25 +3,40 @@
 
         <form class="w-50 mx-auto mt-5 ">
             <h1>Form</h1>
-            <div class="form-field">
-                <label for="name">Input</label>
-                <input type="text" class="form-control" id="name" placeholder="Enter name">
-            </div>
-            <div class="form-field">
-                <label for="email">Email address</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email">
-            </div>
-            <div class="form-field">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Password">
-            </div>
-            <div class="form-actions">
 
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
+            <div v-for="element in form.elements" :key="element.index">
+
+                <div v-if="element.type === 'input'" class="form-field">
+                    <label for="name">{{element.label}}</label>
+                    <input type="text" v-model="element.value" :placeholder="element.placeholder" class="form-control">
+                </div>
 
 
-            
+                <div v-else-if="element.type === 'select'" class="form-field">
+                    <label for="name">{{element.label}}</label>
+                    <select v-model="element.selectedValue">
+                        <option v-for="value in element.values" :key="value" :value="value">{{ value.name }}</option>
+                    </select>
+                </div>
+
+
+                <div v-else-if="element.type === 'checkbox'" class="form-field">
+                    <label for="name">{{element.label}}</label>
+
+                    <div v-for="value in element.values" :key="value"  class="d-flex">
+                        <input type="checkbox" :value="value" v-model="element.selectedValues"> 
+                        <label>{{ value.name }}</label>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+
+
 
         </form>
     </div>
@@ -38,10 +53,12 @@ export default {
 
         };
     },
-    methods: {
+    props: {
+        form: {
+            type: Object,
+            required: true
+        }
     },
-    computed: {
-    }
 }
 </script>
 

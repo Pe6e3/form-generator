@@ -2,8 +2,8 @@
     <div>
 
         <h1>Пример формы №1</h1>
-        <pre>{{ form }}</pre>
-        <form-generator />
+       
+        <form-generator v-if="form" :form="form" />
     </div>
 </template>
 
@@ -16,17 +16,18 @@ export default {
     components: { FormGenerator },
 
     computed: {
-        ...mapState(useFormStore, ['form']),
+        // ...mapState(useFormStore, ['form']),
     },
     data() {
         return {
+            form: null,
         };
     },
     mounted() {
         this.initForm();
     },
     methods: {
-        ...mapActions(useFormStore, ['addInput', 'addSelect', 'addCheckbox', 'addRadio', 'addTextarea', 'addButton', 'addSubmit']),
+        ...mapActions(useFormStore, ['addInput', 'addSelect', 'addCheckbox', 'addRadio', 'addTextarea', 'addButton', 'addSubmit', 'generateForm']),
 
         initForm() {
             this.addInput({
@@ -35,7 +36,39 @@ export default {
                 placeholder: 'Введите имя'
             });
 
-        }
+            this.addSelect({
+                label: 'Страна',
+                values: ['Россия', 'Казахстан', 'Беларусь'],
+                selectedValue: 'Казахстан'
+            });
+
+            this.addCheckbox({
+                label: 'Хобби',
+                values: ['Спорт', 'Музыка', 'Чтение', 'Путешествия'],
+                selectedValues: ['Музыка', 'Чтение']
+            });
+
+            this.addInput({
+                label: 'Email',
+                value: '',
+                placeholder: 'example@mail.ru'
+            });
+
+            this.addSelect({
+                label: 'Пол',
+                values: ['Мужской', 'Женский'],
+                selectedValue: 'Мужской'
+            });
+
+            this.addCheckbox({
+                label: 'Языки программирования',
+                values: ['JavaScript', 'Python', 'C++', 'Java'],
+                selectedValues: ['JavaScript', 'Python']
+            });
+
+            this.form = this.generateForm('Форма №1');
+        },
+
     },
 
 }

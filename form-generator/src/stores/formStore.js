@@ -10,6 +10,35 @@ export const useFormStore = defineStore('formStore', {
 
     actions: {
 
+        generateForm(title) {
+            return {
+                title: title,
+                elements: this.elements.map(element => ({
+                    index: element.index,
+                    label: element.label,
+                    type: element.type,
+                    value: element.value,
+                    placeholder: element.placeholder,
+                    values: element.values || null,
+                    isDisabled: element.isDisabled,
+                    isShow: element.isShow,
+                })),
+                buttonOk: this.buttonOk ? {
+                    text: this.buttonOk.text,
+                    color: this.buttonOk.color,
+                    isDisabled: this.buttonOk.isDisabled,
+                    isShow: this.buttonOk.isShow,
+                } : null,
+                buttonCancel: this.buttonCancel ? {
+                    text: this.buttonCancel.text,
+                    color: this.buttonCancel.color,
+                    isDisabled: this.buttonCancel.isDisabled,
+                    isShow: this.buttonCancel.isShow,
+                } : null,
+            };
+        },
+        
+
         /**
          * @param {String} label - название поля (*обязательно)
          * @param {String} value - значение поля
