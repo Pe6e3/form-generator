@@ -7,10 +7,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <router-link to="/form" class="nav-link">Форма 1</router-link>
+                    <router-link to="/form-one" class="nav-link">Форма 1</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/form" class="nav-link">Форма 2</router-link>
+                    <router-link to="/form-two" class="nav-link">Форма 2</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/form-three" class="nav-link">Форма 3</router-link>
                 </li>
             </ul>
         </div>

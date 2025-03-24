@@ -10,12 +10,11 @@
 </template>
 
 <script>
-import FormGenerator from './components/FormGenerator.vue'
 import Navbar from './Navbar.vue';
 export default {
   name: 'App',
   components: {
-    FormGenerator, Navbar
+    Navbar
   },
   data() {
     return {
