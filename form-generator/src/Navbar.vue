@@ -32,7 +32,7 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
-    background: rgb(0, 126, 230) !important;
+    background: rgb(101, 101, 103) !important;
 }
 
 .nav-link {

@@ -2,9 +2,9 @@
   <div>
     <navbar></navbar>
 
-    <router-view>
-
-    </router-view>
+    <div class="home">
+      <router-view></router-view>
+    </div>
 
   </div>
 </template>
@@ -28,4 +28,36 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.app {
+  min-height: 100vh;
+}
+
+
+.home {
+  background-color: #f5f5f5;
+
+  padding: 20px;
+
+ 
+
+  .custom-email-field {
+    position: relative;
+
+    .email-hint {
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      font-size: 12px;
+      color: #666;
+    }
+  }
+}
+</style>
